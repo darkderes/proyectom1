@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyectom1/page/settings.dart';
-import 'package:proyectom1/page/count.dart';
-
+import 'package:proyectom1/page/counter.dart';
+import 'package:proyectom1/widget/buttonNavegationCustom.dart';
 import 'app_theme.dart';
 
 void main() {
@@ -9,10 +9,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {  
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(),
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -30,37 +30,62 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  int _counter = 0;
+  String imagePath = "assets/images/fondopantalla.jpeg";
+  int _incrementValue = 1;
 
-  // funcion que incrementa el contador en 1 y se ocupa setState para actualizar el estado
-  void _incrementCounter() {
+  void updateImagePath(String newImagePath) {
     setState(() {
-      _counter++;
+      imagePath = newImagePath;
     });
   }
 
+  void handleIncrementValueChanged(int newValue) {
+    setState(() {
+      _incrementValue = newValue; // Actualizar el valor de incremento
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: _selectedIndex == 0 ? const PageCount() : const PageSetting(),
-      bottomNavigationBar:
-        BottomNavigationBar(
-            elevation: 0,
-           // backgroundColor: Colors.transparent,
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.schedule), label: "Contador"),
-              BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Configuración"),
-            ],
-            currentIndex: _selectedIndex,
-            onTap: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-          
+      extendBody: true,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
           ),
-        );
+          _selectedIndex == 0
+              ? PageCounter(
+                  onImageSelected: updateImagePath,
+                  incrementValue: _incrementValue,
+                )
+              : PageSetting(
+                  onIncrementValueChanged: handleIncrementValueChanged,
+                ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(child: Container()), // Espacio para la imagen de fondo
+              BottomNavigationBar(
+                items:  [
+                  buttonNavegationItem(Icons.schedule, "Contador"),
+                  buttonNavegationItem(Icons.settings, "Configuración"),
+                ],
+                currentIndex: _selectedIndex,
+                onTap: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
+
+ 
 }
