@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 
-
 class PageSetting extends StatefulWidget {
   final Function(int) onIncrementValueChanged;
+  final int counterValue;
 
-  const PageSetting({Key? key, required this.onIncrementValueChanged}) : super(key: key);
+  const PageSetting(
+      {Key? key,
+      required this.onIncrementValueChanged,
+      required this.counterValue})
+      : super(key: key);
 
   @override
   State<PageSetting> createState() => _PageSettingState();
@@ -18,6 +22,13 @@ class _PageSettingState extends State<PageSetting> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _incrementValue = widget
+        .counterValue; // Inicializa el valor de incremento con el valor pasado
   }
 
   @override
@@ -43,12 +54,15 @@ class _PageSettingState extends State<PageSetting> {
                 ),
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Color.fromARGB(255, 14, 7, 7), fontSize: 28),
+                style: const TextStyle(
+                    color: Color.fromARGB(255, 14, 7, 7), fontSize: 28),
                 onChanged: (value) {
                   final newValue = int.tryParse(value);
                   if (newValue != null) {
                     setState(() {
-                      _incrementValue = newValue > 0 ? newValue : 1; // Actualizar el valor de incremento al cambiar el texto
+                      _incrementValue = newValue > 0
+                          ? newValue
+                          : 1; // Actualizar el valor de incremento al cambiar el texto
                     });
                   }
                 },
@@ -64,9 +78,9 @@ class _PageSettingState extends State<PageSetting> {
               child: IconButton(
                 onPressed: () {
                   widget.onIncrementValueChanged(_incrementValue);
-                  Navigator.pop(context);
                 },
-                icon: const Text("Mostrar", style: TextStyle(color: Colors.white, fontSize: 20)),
+                icon: const Text("Mostrar",
+                    style: TextStyle(color: Colors.white, fontSize: 20)),
                 color: Colors.white,
               ),
             ),

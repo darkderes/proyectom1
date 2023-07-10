@@ -32,6 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   String imagePath = "assets/images/fondopantalla.jpeg";
   int _incrementValue = 1;
+  int _counterValue = 0;
 
   void updateImagePath(String newImagePath) {
     setState(() {
@@ -42,6 +43,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void handleIncrementValueChanged(int newValue) {
     setState(() {
       _incrementValue = newValue; // Actualizar el valor de incremento
+    });
+  }
+
+  void handleCounterValueChanged(int newValue) {
+    setState(() {
+      _counterValue = newValue;
     });
   }
 
@@ -60,16 +67,19 @@ class _MyHomePageState extends State<MyHomePage> {
               ? PageCounter(
                   onImageSelected: updateImagePath,
                   incrementValue: _incrementValue,
+                  counterValue: _counterValue,
+                  onCounterValueChanged: handleCounterValueChanged,
                 )
               : PageSetting(
                   onIncrementValueChanged: handleIncrementValueChanged,
+                  counterValue: _counterValue,
                 ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Expanded(child: Container()), // Espacio para la imagen de fondo
               BottomNavigationBar(
-                items:  [
+                items: [
                   buttonNavegationItem(Icons.schedule, "Contador"),
                   buttonNavegationItem(Icons.settings, "Configuración"),
                 ],
@@ -86,6 +96,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
- 
 }
