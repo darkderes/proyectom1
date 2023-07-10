@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widget/text_custom.dart';
 
 class PageSetting extends StatefulWidget {
   final Function(int) onIncrementValueChanged;
@@ -13,7 +14,6 @@ class PageSetting extends StatefulWidget {
   @override
   State<PageSetting> createState() => _PageSettingState();
 }
-
 class _PageSettingState extends State<PageSetting> {
   final TextEditingController _controller = TextEditingController();
   int _incrementValue = 1;
@@ -23,14 +23,12 @@ class _PageSettingState extends State<PageSetting> {
     _controller.dispose();
     super.dispose();
   }
-
   @override
   void initState() {
     super.initState();
     _incrementValue = widget
         .counterValue; // Inicializa el valor de incremento con el valor pasado
   }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -39,9 +37,8 @@ class _PageSettingState extends State<PageSetting> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Cuanto va incrementar?",
-              style: TextStyle(color: Colors.white, fontSize: 28),
+             Text(
+              "Cuanto va incrementar?",style: styleTitle(20),            
             ),
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -54,12 +51,12 @@ class _PageSettingState extends State<PageSetting> {
                 ),
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                    color: Color.fromARGB(255, 14, 7, 7), fontSize: 28),
+                style: styleNumber(20, 0),
                 onChanged: (value) {
                   final newValue = int.tryParse(value);
                   if (newValue != null) {
                     setState(() {
+                    
                       _incrementValue = newValue > 0
                           ? newValue
                           : 1; // Actualizar el valor de incremento al cambiar el texto
@@ -77,10 +74,13 @@ class _PageSettingState extends State<PageSetting> {
               ),
               child: IconButton(
                 onPressed: () {
-                  widget.onIncrementValueChanged(_incrementValue);
+                  if (_controller.text.isNotEmpty) { 
+                    widget.onIncrementValueChanged(_incrementValue);
+                  }
+                 
                 },
-                icon: const Text("Mostrar",
-                    style: TextStyle(color: Colors.white, fontSize: 20)),
+                icon:  Text("Mostrar",
+                    style: styleTitle(20)),
                 color: Colors.white,
               ),
             ),

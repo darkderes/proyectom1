@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyectom1/page/settings.dart';
 import 'package:proyectom1/page/counter.dart';
-import 'package:proyectom1/widget/buttonNavegationCustom.dart';
+import 'package:proyectom1/widget/button_navegation_custom.dart';
 import 'app_theme.dart';
 
 void main() {

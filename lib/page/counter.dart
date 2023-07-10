@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../app_theme.dart';
-import '../widget/circularAvatarCustom.dart';
+import 'package:proyectom1/widget/text_custom.dart';
+import '../widget/circle_avatar_custom.dart';
 
 class PageCounter extends StatefulWidget {
   final Function(String) onImageSelected;
@@ -36,10 +36,11 @@ class _PageCounterState extends State<PageCounter> {
     });
   }
 
-  void _restCounter() {
+  void _decreaseCounter() {
     setState(() {
       if (_counter > 0) {
         _counter -= widget.incrementValue;
+        if(_counter < 0) _counter = 0;
         widget.onCounterValueChanged(_counter);
       }
     });
@@ -60,7 +61,7 @@ class _PageCounterState extends State<PageCounter> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              const Text("Cambiar de fondo"),
+              Text("Cambiar de fondo",style: styleTitle(28),),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: Row(
@@ -84,10 +85,7 @@ class _PageCounterState extends State<PageCounter> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(_counter.toString(),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 100,
-                    fontWeight: FontWeight.bold,
+                  style: styleNumber(100, 1
                   )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -99,7 +97,7 @@ class _PageCounterState extends State<PageCounter> {
                     ),
                     child: IconButton(
                       onPressed: () {
-                        _restCounter();
+                        _decreaseCounter();
                       },
                       icon: const Icon(Icons.remove),
                       iconSize: 40,
@@ -111,7 +109,7 @@ class _PageCounterState extends State<PageCounter> {
                   ),
                   Container(
                     width:
-                        100, // Ajusta el ancho del Container según tus necesidades
+                        100,
                     height: 100,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -121,8 +119,8 @@ class _PageCounterState extends State<PageCounter> {
                       onPressed: () {
                         _cleanCounter();
                       },
-                      icon: const Text("Limpiar",
-                          style: TextStyle(color: Colors.white, fontSize: 20)),
+                      icon: Text("Limpiar",
+                          style: styleTitle(20)),
                       // iconSize: 100,
                       color: Colors.white,
                     ),
